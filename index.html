@@ -81,12 +81,16 @@
     .section-index{color:var(--authority)}.section-head h2{margin:0;font-size:clamp(44px,5vw,94px);line-height:.96;letter-spacing:-.075em}.section-head p{grid-column:2;max-width:70ch;margin:0;color:var(--authority);font-size:16px;line-height:1.6}
     .section-count{display:block;margin-top:10px;font-size:12px;color:var(--authority);font-weight:700}
     .empty{border-top:1px solid var(--line);padding:28px 0;color:var(--authority);font-size:15px}
-    .project-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border-bottom:1px solid var(--line)}
+    #projects{padding-block:clamp(38px,4vw,72px) clamp(22px,3vw,48px)}
+    #experience,#leadership{padding-block:clamp(22px,3vw,48px) clamp(38px,4vw,72px)}
+    #projects .section-head,#experience .section-head,#leadership .section-head{margin-bottom:clamp(24px,3vw,42px)}
+    #projects .section-head h2,#experience .section-head h2,#leadership .section-head h2{font-size:clamp(42px,4vw,76px)}
+    .project-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(24px,4vw,80px);border-bottom:1px solid var(--line)}
     .entry{position:relative;min-width:0;overflow:hidden}
     .entry::before{content:"";position:absolute;top:0;left:0;width:100%;height:2px;background:var(--signal);transform:scaleX(0);transform-origin:left;transition:transform .75s cubic-bezier(.16,1,.3,1)}
     .entry.in::before{transform:scaleX(1)}
-    .project{min-height:350px;display:flex;flex-direction:column;gap:16px;padding:28px clamp(20px,2.3vw,44px) 34px;border-top:1px solid var(--line);border-right:1px solid var(--line);transition:background .35s,translate .35s cubic-bezier(.16,1,.3,1)}
-    .project:nth-child(2n){border-right:0}.project:hover,.experience:hover{background:var(--white);translate:0 -5px}
+    .project{min-height:320px;display:flex;flex-direction:column;gap:16px;padding:28px clamp(14px,2vw,34px) 30px 0;border-top:1px solid var(--line);transition:background .35s,translate .35s cubic-bezier(.16,1,.3,1)}
+    .project:hover,.experience:hover{background:var(--white);translate:0 -5px}
     .entry-number{font:700 12px Consolas,"Courier New",monospace;color:var(--authority)}
     .project h3{margin:16px 0 0;font-size:clamp(31px,2.9vw,57px);line-height:1.04;letter-spacing:-.06em}
     .project p,.experience p{max-width:65ch;margin:0;color:var(--authority);font-size:15px;line-height:1.65}
@@ -95,12 +99,14 @@
     .skill-list{display:flex;flex-wrap:wrap;gap:7px;margin:0;padding:0;list-style:none}.skill-tag{appearance:none;cursor:pointer;border:1px solid var(--line);padding:7px 9px;background:transparent;color:var(--ink);font-size:11px;font-weight:700;transition:background .2s,border-color .2s,translate .2s}
     .skill-tag:hover{border-color:var(--signal);background:var(--paper-deep);translate:0 -2px}
 
-    .experience-section{background:var(--paper-deep)}.experience-section .section-head{border-color:var(--authority)}.leadership-section{background:var(--white)}
+    .experience-section .section-head{border-color:var(--authority)}
     .experience-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(24px,4vw,80px);border-bottom:1px solid var(--authority)}
     .experience{min-height:320px;display:flex;flex-direction:column;gap:14px;padding:26px clamp(14px,2vw,34px) 30px 0;border-top:1px solid var(--authority);transition:background .35s,translate .35s cubic-bezier(.16,1,.3,1)}
     .experience-top{display:flex;justify-content:space-between;gap:15px}.experience .period{font:700 11px Consolas,"Courier New",monospace;color:var(--authority);letter-spacing:.04em;white-space:nowrap}
     .experience h3{margin:8px 0 0;font-size:clamp(27px,2.5vw,43px);line-height:1.06;letter-spacing:-.055em}.role{font-weight:700;color:var(--ink)!important}
     .experience .skill-block{border-color:var(--line)}
+    .project-grid.solo,.experience-grid.solo{grid-template-columns:1fr}
+    @media(min-width:901px){.project-grid.solo .project,.experience-grid.solo .experience{min-height:0;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(280px,.7fr);column-gap:clamp(30px,5vw,100px);align-content:start}.project-grid.solo .project>:not(.skill-block),.experience-grid.solo .experience>:not(.skill-block){grid-column:1}.project-grid.solo .skill-block,.experience-grid.solo .skill-block{grid-column:2;grid-row:1/span 4;align-self:end;margin:0}}
 
     .goal-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);gap:clamp(35px,8vw,170px)}
     .goal-grid .large{max-width:27ch;margin:0;font-size:clamp(28px,3vw,55px);line-height:1.2;font-weight:700;letter-spacing:-.05em}
@@ -311,6 +317,15 @@
       document.getElementById('projects-empty').hidden = projectCount !== 0;
       document.getElementById('experience-empty').hidden = experienceCount !== 0;
       document.getElementById('leadership-empty').hidden = leadershipCount !== 0;
+      document.getElementById('projects').hidden = projectCount === 0;
+      document.getElementById('experience').hidden = experienceCount === 0;
+      document.getElementById('leadership').hidden = leadershipCount === 0;
+      document.querySelector('#projects .project-grid').classList.toggle('solo', projectCount === 1);
+      document.querySelector('#experience .experience-grid').classList.toggle('solo', experienceCount === 1);
+      document.querySelector('#leadership .experience-grid').classList.toggle('solo', leadershipCount === 1);
+      document.querySelectorAll('.nav a[aria-current="location"]').forEach(link => {
+        if (document.querySelector(link.getAttribute('href'))?.hidden) link.removeAttribute('aria-current');
+      });
       const shown = projectCount + experienceCount + leadershipCount;
       const domainName = domainButtons.find(button => button.dataset.domain === activeDomain).textContent;
       status.textContent = activeDomain === 'all' && !activeSkills.size ? `Showing all ${entries.length} entries` : `Showing ${shown} of ${entries.length} entries${activeDomain === 'all' ? '' : ` in ${domainName}`}${activeSkills.size ? ', matching any selected skill' : ''}`;
@@ -329,6 +344,22 @@
       document.querySelector('.filter-wrap').scrollIntoView({ behavior:motionOK ? 'smooth' : 'auto', block:'start' });
     }));
     clearButton.addEventListener('click', () => { activeSkills.clear(); activeDomain = 'all'; updateFilters(); });
+    document.querySelectorAll('a[href="#projects"],a[href="#experience"],a[href="#leadership"]').forEach(link => link.addEventListener('click', event => {
+      const target = document.querySelector(link.getAttribute('href'));
+      if (!target.hidden) return;
+      event.preventDefault();
+      activeSkills.clear(); activeDomain = 'all'; updateFilters();
+      history.pushState(null, '', link.getAttribute('href'));
+      target.tabIndex = -1;
+      target.focus({ preventScroll:true });
+      target.scrollIntoView({ behavior:motionOK ? 'smooth' : 'auto', block:'start' });
+    }));
+    addEventListener('hashchange', () => {
+      const target = document.getElementById(location.hash.slice(1));
+      if (!target?.hidden || !['projects','experience','leadership'].includes(target.id)) return;
+      activeSkills.clear(); activeDomain = 'all'; updateFilters();
+      target.scrollIntoView({ behavior:'auto', block:'start' });
+    });
 
     const copyButton = document.getElementById('copy-email');
     const emailText = document.getElementById('email-address');
