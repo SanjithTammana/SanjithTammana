@@ -1,8 +1,8 @@
 # UTCS homepage copy
 
-The full portfolio is `../index.html`. It is a single file with inline CSS and a small amount of browser JavaScript. The browser runs that JavaScript after Apache serves the file. The separate `index.html` in this folder is a simpler HTML/CSS version for the class assignment.
+The `index.html` in this folder is the same full portfolio as the repository root `index.html`. It includes inline CSS and browser JavaScript for motion and a scroll indicator. The browser runs that JavaScript after Apache serves the file. There are no external assets or build steps.
 
-To publish the simple version, copy this folder's `index.html` to `/u/<your-UTCS-login>/public_html/index.html` on your UTCS account. If you prefer the full portfolio, copy the repository root `index.html` to that same destination instead. Keep only one index file in `public_html`.
+To publish it, copy this folder's `index.html` to `/u/<your-UTCS-login>/public_html/index.html` on your UTCS account. Keep only one index file in `public_html`.
 
 On the UTCS machine, ensure your home directory and `public_html` are searchable, and run:
 
