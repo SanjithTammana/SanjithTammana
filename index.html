@@ -6,7 +6,18 @@
   <meta name="theme-color" content="#547076">
   <meta name="description" content="Sanjith Tammana is a computer science student at UT Austin working on forecasting, computer vision, and software projects.">
   <title>Sanjith Tammana — Computer Science at UT Austin</title>
-  <script>document.documentElement.classList.add('js')</script>
+  <script>
+    document.documentElement.classList.add('js');
+    if (performance.getEntriesByType('navigation')[0]?.type === 'reload' && !location.hash) {
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+      addEventListener('pageshow', () => {
+        scrollTo({ top:0, left:0, behavior:'instant' });
+      }, { once:true });
+      addEventListener('pagehide', () => {
+        if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
+      }, { once:true });
+    }
+  </script>
   <style>
     /* Sanzo Wada combination #241: Red Orange, Pale Lemon, Isabella, Dark Medici Blue.
        Lightness variants serve text and surfaces; no additional hues are used. */
